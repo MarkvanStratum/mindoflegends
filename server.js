@@ -228,13 +228,11 @@ app.post("/api/login", async (req, res) => {
 });
 
 // 1. Remove 'authenticateToken' from this route to allow guests
-app.post("/api/create-payment-intent", async (req, res) => {
+app.post("/api/create-payment-intent", authenticateToken, async (req, res) => {
     try {
-        const { plan, email: guestEmail } = req.body; // Get email from the form
-        
-        // 2. Use the logged-in user's email, OR the guest email from the form
-        const email = req.user ? req.user.email : guestEmail;
-        const userId = req.user ? req.user.id : null;
+        const { plan } = req.body;
+const email = req.user.email;
+const userId = req.user.id;
 
         if (!email) {
             return res.status(400).json({ error: "Email is required" });
