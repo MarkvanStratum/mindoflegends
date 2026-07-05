@@ -3,167 +3,511 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure Access — Mind of Legends</title>
-    <script src="https://js.stripe.com/v3/"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=EB+Garamond&display=swap" rel="stylesheet">
+    <title>Sacred Offering — Secure Checkout</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=EB+Garamond&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="https://gw.finby.eu/js/v1.js"></script>
+
     <style>
         :root {
-            --gold-legend: #c5a059;
-            --blue-deep: #1e293b;
-            --bg-archive: #f4f1ea;
-            --text-main: #33302c;
+            --gold-divine: #c5a059;
+            --blue-saint: #2c3e50;
+            --bg-layout: #f9fafb;
+            --line-border: #e5e7eb;
+            --text-main: #0a2540;
+            --text-muted: #62748b;
+            --error: #9a1a1a;
+            --success: #16a34a;
         }
+
+        * { box-sizing: border-box; }
         body { 
-            background: var(--bg-archive); 
-            font-family: 'EB Garamond', serif; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh; 
             margin: 0; 
+            padding: 0; 
+            background: #fff; 
+            font-family: 'Inter', system-ui, sans-serif;
+            color: var(--text-main);
+            min-height: 100vh;
+        }
+
+        .safe-header {
+            background: #0a0a0a;
+            color: #fff;
+            font-size: 12px;
+            padding: 8px 20px;
+            text-align: left;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .main-container {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 400px;
+            min-height: calc(100vh - 31px);
+        }
+
+        @media (max-width: 960px) {
+            .main-container { grid-template-columns: 1fr; }
+            .sidebar { border-left: none !important; border-top: 1px solid var(--line-border); }
+        }
+
+        .form-section {
+            padding: 40px min(10%, 80px);
+            background: #fff;
+        }
+
+        .brand-header {
+            text-align: left;
+            margin-bottom: 35px;
+            border-bottom: 1px solid var(--line-border);
+            padding-bottom: 20px;
+        }
+
+        .brand-title {
+            font-family: 'Cinzel', serif;
+            font-size: 26px;
+            color: var(--blue-saint);
+            letter-spacing: 2px;
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .brand-sub {
+            font-family: 'EB Garamond', serif;
+            font-style: italic;
+            font-size: 15px;
+            color: var(--gold-divine);
+            margin-top: 4px;
+        }
+
+        h2 { 
+            font-size: 18px; 
+            font-weight: 700; 
+            margin: 0 0 8px 0; 
             color: var(--text-main);
         }
-        .checkout-box { 
-            background: white; 
-            padding: 40px; 
-            border-radius: 12px; 
-            box-shadow: 0 15px 50px rgba(0,0,0,0.08); 
-            width: 100%; 
-            max-width: 450px; 
-            border: 1px solid rgba(197,160,89,0.25); 
-        }
-        .logo { 
-            text-align: center; 
-            color: var(--gold-legend); 
-            font-family: 'Cinzel'; 
-            font-size: 24px; 
-            margin-bottom: 10px; 
-            letter-spacing: 2px;
-        }
-        .logo-mark {
-            width: 50px;
-            height: 50px;
-            background: var(--blue-deep);
-            border: 2px solid var(--gold-legend);
-            border-radius: 50%;
-            display: grid;
-            place-items: center;
-            margin: 0 auto 15px;
-            color: var(--gold-legend);
-            font-weight: bold;
-        }
-        h2 { 
-            text-align: center; 
-            font-family: 'Cinzel'; 
-            font-size: 20px; 
-            color: var(--blue-deep); 
-            margin-bottom: 30px; 
-            border-bottom: 1px solid #eee;
-            padding-bottom: 15px;
-        }
-        #payment-element { margin-bottom: 24px; }
-        .btn {
-            background: var(--gold-legend);
-            color: white;
-            font-family: 'Cinzel';
-            width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            letter-spacing: 2px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .btn:hover { background: #b08d4a; }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        #error-message { color: #be123c; text-align: center; margin-top: 15px; font-size: 15px; }
-        .back-link { 
-            display: block; 
-            text-align: center; 
-            margin-top: 25px; 
-            color: #64748b; 
-            text-decoration: none; 
+
+        .subtitle { 
+            color: var(--text-muted); 
             font-size: 14px; 
-            font-family: 'Cinzel';
+            margin-bottom: 24px; 
         }
-        .back-link:hover { color: var(--gold-legend); }
+
+        .input-group { margin-bottom: 20px; }
+        label { 
+            display: block; 
+            margin-bottom: 6px; 
+            color: var(--text-main); 
+            font-size: 13px; 
+            font-weight: 600;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cfd6e4;
+            border-radius: 8px;
+            font-size: 15px;
+            color: var(--text-main);
+            background: #fff;
+            transition: border-color 0.2s;
+        }
+        input[type="text"]:focus { outline: none; border-color: var(--blue-saint); }
+
+        #card-element {
+            padding: 4px 0;
+            border: 1px solid #cfd6e4;
+            border-radius: 8px;
+            background: #fff;
+            min-height: 90px;
+            overflow: hidden;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-top: 15px;
+            text-align: left;
+            cursor: pointer;
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .checkbox-container input {
+            margin-top: 3px;
+            cursor: pointer;
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+
+        .checkbox-container a {
+            color: var(--blue-saint);
+            text-decoration: underline;
+        }
+
+        .btn-submit {
+            background: #16a34a;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: opacity 0.2s;
+        }
+        .btn-submit:hover { opacity: 0.9; }
+        .btn-submit:disabled { background: #cbd5e1; cursor: not-allowed; color: #64748b; }
+
+        .message { margin-top: 20px; padding: 12px; border-radius: 8px; font-size: 14px; display: none; }
+        .message.error { display: block; background: #fff1f1; color: var(--error); border: 1px solid #f5bcbc; }
+        .message.success { display: block; background: #f0fdf4; color: var(--success); border: 1px solid #bbf7d0; }
+
+        .sidebar {
+            background: var(--bg-layout);
+            border-left: 1px solid var(--line-border);
+            padding: 40px 30px;
+        }
+
+        .widget {
+            background: #fff;
+            border: 1px solid var(--line-border);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+
+        .product-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border: 1px dashed #d9e2ef;
+            border-radius: 10px;
+            background: #f7fbff;
+        }
+
+        .order-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 14px;
+        }
+        .order-total {
+            border-top: 1px dashed var(--line-border);
+            font-weight: 700;
+            font-size: 16px;
+            padding-top: 12px;
+            margin-top: 6px;
+        }
+
+        .trust-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+        .trust-box {
+            border: 1px solid var(--line-border);
+            padding: 10px;
+            border-radius: 8px;
+            background: #fff;
+        }
+
+        .loader {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 0.8s linear infinite;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
-    <div class="checkout-box">
-        <div class="logo-mark">M</div>
-        <div class="logo">Mind of Legends</div>
-        <h2>Secure Archive Access</h2>
-        
-        <form id="payment-form">
-            <div id="payment-element">
-                </div>
-            <button id="submit" class="btn">Confirm Access</button>
-            <div id="error-message"></div>
-        </form>
 
-        <a href="/pricing.html" class="back-link">Return to Tiers</a>
+<div class="safe-header">🔒 Secure SSL Checkout Connection</div>
+
+<div class="main-container">
+
+    <div class="form-section">
+        <div class="brand-header">
+            <h1 class="brand-title">Legend Speak</h1>
+            <div class="brand-sub">Sacred Biblical AI Sanctuary Conversations</div>
+        </div>
+
+        <h2>2. Secure Payment Authorization</h2>
+        <div class="subtitle">Your financial information is completely encrypted and fully isolated.</div>
+
+        <form id="payment-form">
+            <div class="input-group">
+                <label for="cardholder-name">Cardholder Full Name</label>
+                <input type="text" id="cardholder-name" placeholder="John Doe" required>
+            </div>
+
+            <div class="input-group">
+                <label>Credit Card Credentials</label>
+                <div id="card-element"></div>
+            </div>
+
+            <label class="checkbox-container">
+                <input type="checkbox" id="check-terms" required>
+                <span>I explicitly authorize and accept the platform <a href="/terms" target="_blank">Terms & Conditions</a> along with the default automated renewal provisioning specifications.</span>
+            </label>
+
+            <label class="checkbox-container">
+                <input type="checkbox" id="check-privacy" required>
+                <span>I confirm acknowledgment of immediate system delivery access deployment and agree with the established data usage policies outlined in the <a href="/privacy-policy" target="_blank">Privacy Policy</a>.</span>
+            </label>
+
+            <div id="message-box" class="message"></div>
+
+            <button type="submit" id="submit-button" class="btn-submit">
+                <span id="btn-loader" style="display: none;" class="loader"></span>
+                <span id="btn-text">Pay Securely</span>
+            </button>
+        </form>
     </div>
 
-    <script>
-        const stripe = Stripe("pk_live_51TA3CuPJ1vAPmCA0QvtIZt3IAGXO0Q6uBFkGeAKyQ6vLBaYK1HBKoE3UGYhbb8EmJI3Rw8UrEtiYDAc4JZXIG94c00VIXXqch6"); // Replace with your actual key
-        const params = new URLSearchParams(window.location.search);
-        const plan = params.get('plan');
-        const token = localStorage.getItem("jwt");
+    <div class="sidebar">
+        
+        <div id="productBox" class="widget" style="display:none">
+            <div class="product-info">
+                <img id="productImg" style="width:52px;height:52px;border-radius:8px;border:1px solid var(--line-border);object-fit:cover;display:none">
+                <div>
+                    <div id="productTitle" style="font-weight:700;font-size:14px"></div>
+                    <div style="font-size:12px;color:var(--text-muted)">Selected Divine Communion Plan</div>
+                </div>
+            </div>
+        </div>
 
-        let elements;
+        <div class="widget">
+            <div style="font-weight:700;margin-bottom:12px;font-size:14px">Order Verification Summary</div>
+            <div class="order-row">
+                <span>Fast Delivery Delivery</span>
+                <span style="font-weight:600;color:var(--success)">Free Access</span>
+            </div>
+            <div class="order-row order-total">
+                <span>Total Amount Due:</span>
+                <span id="total-price-display">Calculating...</span>
+            </div>
+        </div>
 
-        async function initialize() {
-            const response = await fetch("/api/create-payment-intent", {
-                method: "POST",
-                headers: { 
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + token 
-                },
-                body: JSON.stringify({ plan }),
-            });
-            
-            const data = await response.json();
-            if (data.error) {
-                document.getElementById('error-message').innerText = data.error;
-                return;
-            }
+        <div class="widget">
+            <div style="font-weight:700;margin-bottom:12px;font-size:14px">Why Choose Our Sanctuary Architecture</div>
+            <div class="trust-grid">
+                <div class="trust-box"><div style="font-size:16px">⭐</div>99.4% Positive</div>
+                <div class="trust-box"><div style="font-size:16px">🔒</div>SSL Secure</div>
+                <div class="trust-box"><div style="font-size:16px">🛡️</div>Isolated Safe</div>
+                <div class="trust-box"><div style="font-size:16px">💬</div>24/7 Portal Support</div>
+            </div>
+        </div>
 
-            const { clientSecret } = data;
-            elements = stripe.elements({ clientSecret });
-            const paymentElement = elements.create("payment");
-            paymentElement.mount("#payment-element");
+    </div>
+
+</div>
+
+<script>
+const tokenFromServer = window.PROMO_CHECKOUT_TOKEN || null;
+
+const form = document.getElementById('payment-form');
+const submitBtn = document.getElementById('submit-button');
+const btnLoader = document.getElementById('btn-loader');
+const btnText = document.getElementById('btn-text');
+const messageBox = document.getElementById('message-box');
+const totalPriceDisplay = document.getElementById('total-price-display');
+
+const checkTerms = document.getElementById('check-terms');
+const checkPrivacy = document.getElementById('check-privacy');
+
+const pageParams = new URLSearchParams(location.search);
+const productTitleFromUrl = pageParams.get("sub1") || "";
+const productImageFromUrl = pageParams.get("sub2") || "";
+
+let trustPayApi = null;
+let cardComponent = null;
+let paymentSecrets = null;
+
+window.addEventListener("DOMContentLoaded", () => {
+    const productBox = document.getElementById("productBox");
+    const productTitle = document.getElementById("productTitle");
+    const productImg = document.getElementById("productImg");
+
+    if (productTitleFromUrl) {
+        productTitle.textContent = productTitleFromUrl;
+        productBox.style.display = "block";
+    }
+    if (productImageFromUrl) {
+        productImg.src = productImageFromUrl;
+        productImg.style.display = "block";
+        productBox.style.display = "block";
+    }
+});
+
+function setLoading(isLoading) {
+    if (isLoading) {
+        submitBtn.disabled = true;
+        btnLoader.style.display = 'inline-block';
+        btnText.textContent = 'Processing...';
+    } else {
+        submitBtn.disabled = false;
+        btnLoader.style.display = 'none';
+        btnText.textContent = 'Pay Securely';
+    }
+}
+
+function showMessage(type, text) {
+    messageBox.textContent = text;
+    messageBox.className = `message ${type}`;
+}
+
+async function initialiseFinby() {
+    if (!tokenFromServer) {
+        throw new Error('Invalid or expired checkout session. Please re-select a plan.');
+    }
+
+    const response = await fetch("/api/create-promo-payment", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+    checkoutToken: tokenFromServer,
+    cardholderName: document.getElementById("cardholder-name").value.trim()
+})
+    });
+
+    const text = await response.text();
+    let data;
+    try {
+        data = JSON.parse(text);
+    } catch (e) {
+        throw new Error(text || 'Server returned an invalid response environment.');
+    }
+
+    if (!response.ok) {
+        throw new Error(data.error || 'Could not instantiate payment record.');
+    }
+
+    if (!data.secrets || !data.secrets.payment) {
+        throw new Error('Handshake failed. No payment secret tokens were initialized.');
+    }
+
+    // FIX: Completely dynamic price parser pulled from active transaction authorization data
+    
+        // FIX: Extracting the price properly from the actual server response payload
+    const finalAmount = data.amount || (data.checkoutLink && data.checkoutLink.amount);
+    const finalCurrency = data.currency || (data.checkoutLink && data.checkoutLink.currency) || 'GBP';
+
+    if (finalAmount) {
+        const amountNum = Number(finalAmount);
+        const currencySymbol = finalCurrency === 'GBP' ? '£' : (finalCurrency === 'EUR' ? '€' : finalCurrency || '');
+        
+        if (finalCurrency === 'EUR') {
+            totalPriceDisplay.textContent = amountNum.toFixed(2).replace('.', ',') + ' €';
+        } else {
+            totalPriceDisplay.textContent = currencySymbol + amountNum.toFixed(2);
+        }
+    } else {
+        // Safe layout fallback if something goes wrong
+        totalPriceDisplay.textContent = '£' + (window.location.search.includes('3595') ? '35.95' : (window.location.search.includes('4995') ? '49.95' : '29.95'));
+    }
+
+    paymentSecrets = data.secrets;
+    trustPayApi = new TrustPayApi(paymentSecrets);
+
+    cardComponent = trustPayApi.createComponent("card", {
+        style: {
+            fontFamily: "Inter, system-ui, sans-serif",
+            fontSize: "15px",
+            color: "#0a2540"
+        }
+    });
+
+    document.getElementById("card-element").innerHTML = "";
+cardComponent.mount("#card-element");
+}
+
+window.addEventListener('load', async () => {
+    try {
+        setLoading(true);
+        await initialiseFinby();
+    } catch (error) {
+        console.error(error);
+        showMessage('error', error.message || 'Could not load payment form.');
+    } finally {
+        setLoading(false);
+    }
+});
+
+form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    messageBox.className = 'message';
+
+    if (!checkTerms.checked || !checkPrivacy.checked) {
+        showMessage('error', 'Please accept the mandatory terms and policy verification checkboxes to proceed.');
+        return;
+    }
+
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+
+    try {
+        setLoading(true);
+
+        if (!trustPayApi || !cardComponent || !paymentSecrets) {
+            await initialiseFinby();
         }
 
-        document.querySelector("#payment-form").addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const submitBtn = document.querySelector("#submit");
-            submitBtn.disabled = true;
-
-            const { error } = await stripe.confirmPayment({
-                elements,
-                confirmParams: {
-                    // Redirect back to home with a success flag
-                    return_url: window.location.origin + "/?payment=success",
-                },
-            });
-
-            if (error) {
-                document.querySelector("#error-message").textContent = error.message;
-                submitBtn.disabled = false;
-            }
+        const result = await trustPayApi.finishCardPayment(paymentSecrets.payment, {
+            card: cardComponent
         });
 
-        if (!token) {
-            alert("Please sign in to access the archives.");
-            window.location.href = "/";
-        } else if (!plan) {
-            alert("No tier selected.");
-            window.location.href = "/pricing.html";
+        console.log('FINBY PAYMENT RESULT:', result);
+
+        const isFinbySuccess =
+            result &&
+            (
+                result.status === "paid" ||
+                result.status === "success" ||
+                result.status === "succeeded" ||
+                Number(result.status) === 0 ||
+                Number(result.status) > 0 ||
+                String(result.resultCode || result.ResultCode || "") === "100000" ||
+                String(result.reasonCode || result.ReasonCode || "") === "000.000.000"
+            );
+
+        if (isFinbySuccess) {
+            showMessage('success', 'Payment completed successfully. Your access will be activated shortly.');
+
+            setTimeout(() => {
+                window.location.href = '/login.html';
+            }, 1800);
         } else {
-            initialize();
+            showMessage('error', 'Payment was not completed. Please check your card details or try another card.');
         }
-    </script>
+
+    } catch (error) {
+        console.error('Payment failed:', error);
+        showMessage('error', error?.message || 'Transaction submission failed.');
+    } finally {
+        setLoading(false);
+    }
+});
+</script>
 </body>
 </html>

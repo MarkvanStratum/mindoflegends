@@ -3,163 +3,188 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Membership Tiers — Mind of Legends</title>
+  <title>Sacred Offerings — Legend Speak</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg-archive: #f4f1ea; 
+      --bg-heaven: #fdfcfb; 
       --marble: #ffffff;
-      --gold-legend: #c5a059;
-      --blue-deep: #1e293b;
+      --gold-divine: #c5a059;
+      --blue-saint: #2c3e50;
       --text-main: #33302c;
-      --border-accent: rgba(197, 160, 89, 0.25);
-      --archive-shadow: 0 20px 60px rgba(0,0,0,0.07);
+      --border-holy: rgba(197, 160, 89, 0.25);\n      --divine-shadow: 0 20px 60px rgba(0,0,0,0.07);
     }
 
     * { box-sizing: border-box; }
     body {
-      margin: 0; color: var(--text-main); background-color: var(--bg-archive);
-      font-family: "EB Garamond", serif; padding: 60px 20px; text-align: center;
+      margin: 0; color: var(--text-main); background-color: var(--bg-heaven);
+      font-family: 'EB Garamond', serif; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 40px 20px;
     }
 
-    .header { max-width: 800px; margin: 0 auto 60px; }
-    .header h1 { font-family: "Cinzel", serif; font-size: 42px; color: var(--blue-deep); margin-bottom: 10px; }
-    .header p { font-style: italic; font-size: 22px; color: #64748b; }
+    .sanctuary-title {
+      font-family: 'Cinzel', serif; font-size: 36px; text-align: center;
+      margin-bottom: 10px; color: var(--blue-saint); letter-spacing: 2px;
+    }
 
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
-      max-width: 1100px;
-      margin: 0 auto;
-      align-items: start;
+    .sanctuary-subtitle {
+      font-style: italic; font-size: 18px; text-align: center;
+      margin-bottom: 50px; color: var(--gold-divine);
+    }
+
+    .pricing-container {
+      display: flex; gap: 30px; max-width: 1050px; width: 100%;
+      justify-content: center; align-items: stretch;
+    }
+
+    @media (max-width: 850px) {
+      .pricing-container { flex-direction: column; align-items: center; }
     }
 
     .card {
-      background: var(--marble);
-      padding: 50px 30px;
-      border-radius: 12px;
-      border: 1px solid var(--border-accent);
-      box-shadow: var(--archive-shadow);
-      transition: transform 0.3s ease;
+      background: var(--marble); border: 1px solid var(--border-holy);
+      border-radius: 12px; padding: 40px 30px; width: 100%; max-width: 320px;
+      display: flex; flex-direction: column; align-items: center;
+      box-shadow: var(--divine-shadow); transition: transform 0.3s ease, border-color 0.3s ease;
       position: relative;
     }
 
-    .card:hover { transform: translateY(-10px); }
+    .card:hover { transform: translateY(-5px); border-color: var(--gold-divine); }
 
-    .card.featured {
-      border: 2px solid var(--gold-legend);
-      transform: scale(1.05);
-      z-index: 2;
-    }
-    .card.featured:hover { transform: scale(1.05) translateY(-10px); }
-
-    .featured-label {
-      position: absolute;
-      top: 0; left: 50%;
-      transform: translate(-50%, -50%);
-      background: var(--gold-legend);
-      color: white;
-      padding: 6px 20px;
-      border-radius: 20px;
-      font-family: "Cinzel", serif;
-      font-size: 12px;
-      letter-spacing: 1px;
+    .plan-name {
+      font-family: 'Cinzel', serif; font-size: 18px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px;
+      color: var(--blue-saint); text-align: center;
     }
 
-    .plan-name { font-family: "Cinzel", serif; font-size: 22px; margin-bottom: 15px; color: var(--blue-deep); }
-    .price { font-size: 48px; font-weight: bold; margin-bottom: 5px; color: var(--text-main); }
-    .duration { font-family: "Cinzel", serif; font-size: 12px; color: var(--gold-legend); letter-spacing: 1px; margin-bottom: 30px; }
+    .price {
+      font-family: 'Cinzel', serif; font-size: 42px; font-weight: 700;
+      color: var(--gold-divine); margin-bottom: 5px;
+    }
 
-    .features { list-style: none; padding: 0; margin: 0 0 40px; text-align: left; }
-    .features li { padding: 12px 0; border-bottom: 1px solid #f0f0f0; font-size: 18px; color: #4a5568; }
-    .features li:last-child { border-bottom: none; }
-    .features li::before { content: "•"; color: var(--gold-legend); margin-right: 10px; font-weight: bold; }
+    .duration {
+      font-size: 14px; text-transform: uppercase; letter-spacing: 1px;
+      color: var(--text-muted); margin-bottom: 30px; font-style: italic;
+    }
+
+    .features {
+      list-style: none; padding: 0; margin: 0 0 40px 0; width: 100%;
+      display: flex; flex-direction: column; gap: 12px; border-top: 1px solid rgba(197, 160, 89, 0.15);
+      padding-top: 20px;
+    }
+
+    .features li { font-size: 16px; text-align: center; color: var(--text-main); }
 
     .btn {
-      width: 100%;
-      padding: 16px;
-      background: transparent;
-      border: 1px solid var(--gold-legend);
-      color: var(--gold-legend);
-      border-radius: 6px;
-      font-family: "Cinzel", serif;
-      font-size: 14px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      cursor: pointer;
-      transition: 0.3s;
+      margin-top: auto; width: 100%; background: var(--blue-saint);
+      color: white; border: none; padding: 14px; font-family: 'Cinzel', serif;
+      font-size: 14px; font-weight: 600; border-radius: 6px; cursor: pointer;
+      letter-spacing: 1px; transition: background 0.2s, transform 0.1s;
     }
 
-    .btn:hover { background: var(--gold-legend); color: white; }
-    .featured .btn { background: var(--gold-legend); color: white; }
-    .featured .btn:hover { background: #b08d4a; border-color: #b08d4a; }
+    .btn:hover { background: var(--gold-divine); }
+    .btn:active { transform: scale(0.98); }
 
-    .back-link { display: inline-block; margin-top: 60px; color: var(--gold-legend); text-decoration: none; font-family: "Cinzel", serif; letter-spacing: 1px; }
-    .back-link:hover { text-decoration: underline; }
-
-    @media (max-width: 768px) {
-      .card.featured { transform: none; }
-      .card.featured:hover { transform: translateY(-10px); }
+    .back-link {
+      margin-top: 50px; font-family: 'Cinzel', serif; font-size: 13px;
+      text-decoration: none; color: var(--text-muted); letter-spacing: 1px;
+      transition: color 0.2s; text-transform: uppercase;
     }
+    .back-link:hover { color: var(--gold-divine); }
   </style>
 </head>
 
 <body>
-  <div class="header">
-    <h1>Archive Access</h1>
-    <p>Secure your passage to the greatest minds in history.</p>
-  </div>
 
-  <div class="pricing-grid">
+  <div class="sanctuary-title">Sacred Offerings</div>
+  <div class="sanctuary-subtitle">Choose your tier of communion with the divine features</div>
+
+  <div class="pricing-container">
     <div class="card">
-      <div class="plan-name">Historical Tier</div>
-      <div class="price">$29.95</div>
-      <div class="duration">One-Time Access • 30 Days</div>
+      <div class="plan-name">Messenger Tier</div>
+      <div class="price">£29.95</div>
+      <div class="duration">One-Time Payment. 1 month access.</div>
       <ul class="features">
-        <li>Consultation with any 1 Legend</li>
-        <li>Full Message History</li>
-        <li>Source Material Integration</li>
+        <li>Access to Selected Divine Figures</li>
+        <li>Standard Response Time</li>
+        <li>Standard Conversation Memory</li>
       </ul>
-      <button class="btn" onclick="checkout('god')">Acquire Access</button>
-    </div>
-
-    <div class="card featured">
-      <div class="featured-label">Recommended</div>
-      <div class="plan-name">Legendary Tier</div>
-      <div class="price">$35.95</div>
-      <div class="duration">One-Time Access • 30 Days</div>
-      <ul class="features">
-        <li>Full Archive Access (All Figures)</li>
-        <li>Priority Processing</li>
-        <li>Deep Contextual Memory</li>
-      </ul>
-      <button class="btn" onclick="checkout('all')">Acquire Access</button>
+      <button class="btn" onclick="checkout('2995', 29.95)">Select Offering</button>
     </div>
 
     <div class="card">
-      <div class="plan-name">Eternal Archive</div>
-      <div class="price">$49.95</div>
-      <div class="duration">One-Time Access • Unlimited</div>
+      <div class="plan-name">Celestial Access</div>
+      <div class="price">£35.95</div>
+      <div class="duration">One-Time Payment • 30 Days</div>
       <ul class="features">
-        <li>Unlimited Lifetime Consultations</li>
-        <li>All Future Legends Included</li>
-        <li>Permanent Archival Status</li>
+        <li>Access to All Divine Figures</li>
+        <li>Priority Response Time</li>
+        <li>Full Conversation Memory</li>
       </ul>
-      <button class="btn" onclick="checkout('lifetime')">Acquire Access</button>
+      <button class="btn" onclick="checkout('3595', 35.95)">Select Offering</button>
+    </div>
+
+    <div class="card">
+      <div class="plan-name">3 month full access</div>
+      <div class="price">£49.95</div>
+      <div class="duration">One-Time Payment •</div>
+      <ul class="features">
+        <li>3 month Access</li>
+        <li>All Future Prophets Included</li>
+        <li>The Ultimate Divine Bond</li>
+      </ul>
+      <button class="btn" onclick="checkout('lifetime', 49.95)">Select Offering</button>
     </div>
   </div>
 
-  <a href="/" class="back-link">Return to the Archives</a>
+  <a href="/" class="back-link">Return to the Sanctuary</a>
 
-  <script>
-    function checkout(planName) {
-      // Redirects to your checkout logic
-      window.location.href = "/checkout.html?plan=" + planName;
+ <script>
+  async function checkout(planName, priceAmount) {
+    const params = new URLSearchParams(window.location.search);
+    const affiliateRef = params.get('ref') || '';
+
+    // Route through your hidden promotion framework infrastructure
+    const response = await fetch("/api/create-promo-checkout-link", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        plan: planName,
+        step2File: "checkout.html", // Set target step 2 layout filename
+        currency: "GBP",
+        amount: priceAmount,
+        sourcePage: window.location.pathname,
+        ref: affiliateRef,
+        
+        // Blank placeholder details to comply with dynamic initialization parameters
+        firstName: "",
+        lastName: "",
+        name: prompt("Please enter your full name for the payment:") || "",
+email: prompt("Please enter your email address for the payment receipt:") || "",
+        phonePrefix: "+44",
+        phone: "0000000000",
+        address: "Main Sanctuary Street",
+        postcode: "SW1A 1AA",
+        city: "London",
+        country: "United Kingdom",
+        originalQueryString: window.location.search.replace(/^\?/, "")
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      alert("Unable to process selection at this moment. Please try again.");
     }
-  </script>
+  }
+ </script>
 </body>
 </html>
